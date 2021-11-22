@@ -24,7 +24,11 @@ const SliderElement: React.FC<Props> = ({ img, title, description, bg }) => {
       className='flex items-center w-screen h-screen justify-evenly'
       style={{ backgroundColor: bg }}>
       <div className='flex-1 h-full'>
-        <img src={img} alt='SUMMER SALE' className='w-full' />
+        <img
+          src={img}
+          alt='SUMMER SALE'
+          className='object-cover w-full h-screen'
+        />
       </div>
       <div className='flex-1 p-16'>
         <h1 className='font-semibold text-8xl'>{title}</h1>
