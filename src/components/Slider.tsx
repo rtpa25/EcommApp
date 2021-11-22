@@ -14,6 +14,8 @@ const Arrow = styled.div<ArrowProps>`
   left: ${(props) => props.direction === 'left' && '10px'};
   right: ${(props) => props.direction === 'right' && '10px'};
   z-index: 2;
+  top: 50vh;
+  opacity: 0.2;
 `;
 
 interface WrapperProps {
@@ -37,7 +39,7 @@ const Slider = () => {
   };
 
   return (
-    <div className='w-full h-screen flex overflow-hidden'>
+    <div className='relative flex w-full h-screen overflow-hidden'>
       <Arrow
         className='arrow-btn'
         direction='left'
@@ -52,7 +54,7 @@ const Slider = () => {
               img={item.img}
               title={item.title}
               description={item.desc}
-              bg={`#${item.bg}`}
+              bg={item.bg}
             />
           );
         })}

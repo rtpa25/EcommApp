@@ -3,41 +3,42 @@
 export const sliderItems = [
   {
     id: 1,
-    img: 'https://i.ibb.co/Xb6Zgy5/pexels-quang-anh-ha-nguyen-884979-removebg-preview.png',
-    title: 'SUMMER SALE',
+    img: 'https://i.ibb.co/XkSm3Dg/rafaella-mendes-diniz-et-78-Qk-MMQs-unsplash.jpg',
+    title: 'AUTUMN COLLECTION',
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
-    bg: 'f5fafd',
+    bg: 'rgba(209, 250, 229, 1)',
   },
   {
     id: 2,
-    img: 'https://i.ibb.co/DG69bQ4/2.png',
-    title: 'AUTUMN COLLECTION',
+    img: 'https://i.ibb.co/ynBK67c/judeus-samson-y2ny77b5s-U0-unsplash.jpg',
+    title: 'SUMMER COLLECTION',
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
-    bg: 'fcf1ed',
+    bg: 'rgba(254, 243, 199, 1)',
   },
+
   {
     id: 3,
-    img: 'https://i.ibb.co/cXFnLLV/3.png',
-    title: 'LOUNGEWEAR LOVE',
+    img: 'https://i.ibb.co/TMVnSVF/oleg-ivanov-Qh-R78-Cb-FPo-E-unsplash.jpg',
+    title: 'WINTER COLLECTION',
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
-    bg: 'fbf0f4',
+    bg: 'rgba(219, 234, 254, 1)',
   },
 ];
 
 export const categories = [
   {
     id: 1,
-    img: 'https://images.pexels.com/photos/5886041/pexels-photo-5886041.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+    img: 'https://i.ibb.co/hdbwkP2/nicole-geri-Eb1m-X9ds7sc-unsplash.jpg',
     title: 'SHIRT STYLE!',
   },
   {
     id: 2,
-    img: 'https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+    img: 'https://i.ibb.co/HB6qLPy/mathilde-langevin-7-KN3qcr-T2d8-unsplash.jpg',
     title: 'LOUNGEWEAR LOVE',
   },
   {
     id: 3,
-    img: 'https://images.pexels.com/photos/5480696/pexels-photo-5480696.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+    img: 'https://i.ibb.co/s6tTVsV/toa-heftiba-O3ymv-T7-Wf9-U-unsplash.jpg',
     title: 'LIGHT JACKETS',
   },
 ];
