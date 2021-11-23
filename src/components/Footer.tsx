@@ -64,6 +64,18 @@ const ContactItem = styled.div`
   }
 `;
 
+const Center = styled.div`
+  @media only screen and (max-width: 890px) {
+    display: none;
+  }
+`;
+
+const Contact = styled.div`
+  @media only screen and (max-width: 500px) {
+    display: none;
+  }
+`;
+
 const Footer = () => {
   return (
     <div className='flex'>
@@ -89,7 +101,7 @@ const Footer = () => {
           </SocialIcon>
         </div>
       </div>
-      <div className=' p-7'>
+      <Center className=' p-7'>
         <Title>Useful Links</Title>
         <ul className='flex flex-wrap p-0 m-0'>
           <ListItem>Home</ListItem>
@@ -103,8 +115,8 @@ const Footer = () => {
           <ListItem>Wishlist</ListItem>
           <ListItem>Terms</ListItem>
         </ul>
-      </div>
-      <div className=' p-7'>
+      </Center>
+      <Contact className=' p-7'>
         <Title>Contact</Title>
         <ContactItem>
           <Room style={{ marginRight: '10px' }} /> 622 Dixie Path , South
@@ -117,7 +129,7 @@ const Footer = () => {
           <MailOutline style={{ marginRight: '10px' }} /> contact@lama.dev
         </ContactItem>
         <img src='https://i.ibb.co/Qfvn4z6/payment.png' alt='payment methods' />
-      </div>
+      </Contact>
     </div>
   );
 };

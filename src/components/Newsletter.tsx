@@ -27,19 +27,40 @@ const Button = styled.button`
   }
 `;
 
+const Form = styled.div`
+  @media only screen and (max-width: 620px) {
+    width: 75%;
+  }
+  @media only screen and (max-width: 420px) {
+    width: 85%;
+  }
+`;
+
+const Title = styled.h1`
+  @media only screen and (max-width: 420px) {
+    font-size: 3rem;
+  }
+`;
+
+const Info = styled.div`
+  @media only screen and (max-width: 420px) {
+    font-size: 1rem;
+  }
+`;
+
 const Newsletter = () => {
   return (
     <Container className='flex flex-col items-center justify-center'>
-      <h1 className='mb-10 font-semibold text-7xl'>Newsletter</h1>
-      <div className='mb-10 text-xl font-light'>
+      <Title className='mb-10 font-semibold text-7xl'>Newsletter</Title>
+      <Info className='mb-10 text-xl font-light'>
         Get timely updates from your favorite products.
-      </div>
-      <div className='flex items-center justify-between w-5/12 h-12 bg-white border border-gray-100 border-solid'>
+      </Info>
+      <Form className='flex items-center justify-between w-5/12 h-12 bg-white border border-gray-100 border-solid'>
         <Input placeholder='Your email' className='h-12' />
         <Button className='h-12'>
           <Send />
         </Button>
-      </div>
+      </Form>
     </Container>
   );
 };

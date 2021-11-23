@@ -10,6 +10,7 @@ interface CategoryItemProps {
 const Info = styled.div`
   top: 0;
   left: 0;
+  text-align: center;
 `;
 
 const Container = styled.div`
@@ -24,6 +25,32 @@ const Button = styled.button`
     background-color: #000;
     color: #00d8d8;
   }
+  @media only screen and (max-width: 890px) {
+    font-size: 1.5rem;
+    background-color: #000;
+    color: #00d8d8;
+  }
+  @media only screen and (max-width: 692px) {
+    font-size: 1.2rem;
+    margin-bottom: 5rem;
+  }
+  @media only screen and (max-width: 420px) {
+    font-size: 1rem;
+  }
+`;
+
+const Title = styled.h1`
+  @media only screen and (max-width: 890px) {
+    font-size: 4rem;
+    margin-bottom: 5rem;
+  }
+  @media only screen and (max-width: 692px) {
+    font-size: 3rem;
+    margin-bottom: 5rem;
+  }
+  @media only screen and (max-width: 420px) {
+    font-size: 2rem;
+  }
 `;
 
 const CategoryItem: React.FC<CategoryItemProps> = ({ img, title }) => {
@@ -31,7 +58,9 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ img, title }) => {
     <Container className='relative flex-1'>
       <img src={img} alt='' className='object-cover w-full h-full' />
       <Info className='absolute flex flex-col items-center justify-center w-full h-full'>
-        <h1 className='mb-5 text-4xl font-semibold text-white'>{title}</h1>
+        <Title className='mb-5 text-4xl font-semibold text-white'>
+          {title}
+        </Title>
         <Button className='p-3 cursor-pointer'>SHOP NOW</Button>
       </Info>
     </Container>

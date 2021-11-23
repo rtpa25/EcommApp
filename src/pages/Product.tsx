@@ -7,13 +7,26 @@ import Newsletter from '../components/Newsletter';
 import { Add, Remove } from '@material-ui/icons';
 import styled from 'styled-components';
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  @media only screen and (max-width: 685px) {
+    flex-direction: column;
+  }
+`;
 
 const ImgContainer = styled.div``;
 
-const Image = styled.img``;
+const Image = styled.img`
+  object-fit: cover;
+  @media only screen and (max-width: 890px) {
+    height: 100%;
+  }
+`;
 
-const InfoContainer = styled.div``;
+const InfoContainer = styled.div`
+  @media only screen and (max-width: 685px) {
+    padding: 1rem 0;
+  }
+`;
 
 const Title = styled.h1``;
 
@@ -53,7 +66,14 @@ const FilterSize = styled.select`
 
 const FilterSizeOption = styled.option``;
 
-const AddContainer = styled.div``;
+const AddContainer = styled.div`
+  @media only screen and (max-width: 1100px) {
+    width: 75%;
+  }
+  @media only screen and (max-width: 685px) {
+    width: 100%;
+  }
+`;
 
 const AmountContainer = styled.div``;
 
@@ -64,6 +84,9 @@ const Button = styled.button`
   &:hover {
     background-color: #000;
     color: #00d8d8;
+  }
+  @media only screen and (max-width: 1100px) {
+    font-size: 0.7rem;
   }
 `;
 

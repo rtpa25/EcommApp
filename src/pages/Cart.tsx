@@ -22,12 +22,10 @@ const TopButton = styled.button<TopButtonProps>`
     color: ${(props) =>
       props.bod === 'filled' ? 'black' : 'rgba(16, 185, 129, 1)'};
   }
-`;
-
-const TopText = styled.span`
-  cursor: pointer;
-  text-decoration: underline;
-  margin: 0 1.925rem;
+  @media only screen and (max-width: 500px) {
+    margin: 1rem 0;
+    width: 50%;
+  }
 `;
 
 const Info = styled.div`
@@ -37,6 +35,9 @@ const Info = styled.div`
 const Product = styled.div`
   display: flex;
   justify-content: space-between;
+  @media only screen and (max-width: 685px) {
+    flex-direction: column;
+  }
 `;
 
 const ProductDetail = styled.div`
@@ -72,6 +73,10 @@ const PriceDetail = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  @media only screen and (max-width: 685px) {
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
 `;
 
 const ProductAmountContainer = styled.div`
@@ -104,6 +109,31 @@ const SummaryItem = styled.div`
   justify-content: space-between;
 `;
 
+const Wrapper = styled.div`
+  @media only screen and (max-width: 925px) {
+    flex-direction: column;
+  }
+`;
+
+const QuantityButtonInc = styled(Add)`
+  cursor: pointer;
+  background-color: green;
+  border-radius: 50%;
+  color: white;
+`;
+const QuantityButtonDec = styled(Remove)`
+  cursor: pointer;
+  background-color: red;
+  border-radius: 50%;
+  color: white;
+`;
+
+const TopButtons = styled.div`
+  @media only screen and (max-width: 500px) {
+    flex-direction: column;
+  }
+`;
+
 const Cart = () => {
   return (
     <div className=''>
@@ -111,21 +141,17 @@ const Cart = () => {
       <Announcement />
       <div className='p-5 text-gray-700'>
         <h1 className='text-4xl font-light text-center'>YOUR BAG</h1>
-        <div className='flex items-center justify-between p-5'>
+        <TopButtons className='flex items-center justify-between p-5'>
           <TopButton
             bod='outlined'
             className='border border-green-500 border-solid '>
             CONTINUE SHOPPING
           </TopButton>
-          <div>
-            <TopText>Shopping Bag(2)</TopText>
-            <TopText>Your Wishlist (0)</TopText>
-          </div>
           <TopButton bod='filled' className='text-green-500 bg-black '>
             CHECKOUT NOW
           </TopButton>
-        </div>
-        <div className='flex justify-between'>
+        </TopButtons>
+        <Wrapper className='flex justify-between'>
           <Info className=''>
             <Product>
               <ProductDetail>
@@ -145,9 +171,9 @@ const Cart = () => {
               </ProductDetail>
               <PriceDetail>
                 <ProductAmountContainer>
-                  <Add />
+                  <QuantityButtonInc />
                   <ProductAmount>2</ProductAmount>
-                  <Remove />
+                  <QuantityButtonDec />
                 </ProductAmountContainer>
                 <ProductPrice>$ 30</ProductPrice>
               </PriceDetail>
@@ -171,9 +197,9 @@ const Cart = () => {
               </ProductDetail>
               <PriceDetail>
                 <ProductAmountContainer>
-                  <Add />
+                  <QuantityButtonInc />
                   <ProductAmount>1</ProductAmount>
-                  <Remove />
+                  <QuantityButtonDec />
                 </ProductAmountContainer>
                 <ProductPrice>$ 20</ProductPrice>
               </PriceDetail>
@@ -203,7 +229,7 @@ const Cart = () => {
               CHECKOUT NOW
             </TopButton>
           </Summary>
-        </div>
+        </Wrapper>
       </div>
       <Newsletter />
       <Footer />

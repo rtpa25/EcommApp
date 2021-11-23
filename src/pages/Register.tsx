@@ -25,12 +25,27 @@ const Button = styled.button`
   }
 `;
 
+const Wrapper = styled.div`
+  @media only screen and (max-width: 900px) {
+    width: 75%;
+  }
+  @media only screen and (max-width: 600px) {
+    width: 85%;
+  }
+`;
+
+const Form = styled.form`
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+  }
+`;
+
 const Register = () => {
   return (
     <Container className='flex items-center justify-center w-screen h-screen'>
-      <div className='w-5/12 bg-white p-7'>
+      <Wrapper className='w-5/12 bg-white p-7'>
         <h1 className='text-4xl font-light text-gray-700'>CREATE AN ACCOUNT</h1>
-        <form className='flex flex-wrap'>
+        <Form className='flex flex-wrap'>
           <Input placeholder='name' />
           <Input placeholder='last name' />
           <Input placeholder='username' />
@@ -42,8 +57,8 @@ const Register = () => {
             data in accordance with the <b>PRIVACY POLICY</b>
           </span>
           <Button className='w-5/12 p-3 text-white bg-green-700'>CREATE</Button>
-        </form>
-      </div>
+        </Form>
+      </Wrapper>
     </Container>
   );
 };

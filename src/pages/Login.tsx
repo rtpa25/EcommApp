@@ -40,19 +40,34 @@ const Link = styled.a`
   }
 `;
 
+const Wrapper = styled.div`
+  @media only screen and (max-width: 900px) {
+    width: 75%;
+  }
+  @media only screen and (max-width: 600px) {
+    width: 85%;
+  }
+`;
+
+const Form = styled.form`
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+  }
+`;
+
 const Login = () => {
   return (
     <Container className='flex items-center justify-center w-screen h-screen'>
-      <div className='w-4/12 bg-white p-7'>
+      <Wrapper className='w-4/12 bg-white p-7'>
         <h1 className='text-4xl font-light text-gray-700'>LOGIN TO ACCOUNT</h1>
-        <form className='flex flex-col'>
+        <Form className='flex flex-col'>
           <Input placeholder='email' />
           <Input placeholder='password' />
           <Button className='w-5/12 p-3 text-white bg-green-700'>LOGIN</Button>
           <Link>DO NOT REMEMBER THE PASSWORD ?</Link>
           <Link>CREATE A NEW ACCOUNT</Link>
-        </form>
-      </div>
+        </Form>
+      </Wrapper>
     </Container>
   );
 };
