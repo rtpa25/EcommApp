@@ -1,9 +1,9 @@
 /** @format */
 
-import Product from './pages/Product';
+import Login from './pages/Login';
 
 const App = () => {
-  return <Product />;
+  return <Login />;
 };
 
 export default App;

@@ -1,0 +1,60 @@
+/** @format */
+
+import styled from 'styled-components';
+
+const Container = styled.div`
+  background: linear-gradient(rgba(0, 78, 14, 0.5), rgba(209, 209, 209, 0.5)),
+    url('https://images.pexels.com/photos/6984650/pexels-photo-6984650.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940')
+      center;
+  background-size: cover;
+`;
+
+const Input = styled.input`
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  flex: 1;
+  min-width: 40%;
+  margin: 1.25rem 0.625rem 0 0;
+  padding: 0.625rem;
+`;
+
+const Button = styled.button`
+  margin-top: 1.25rem;
+  transition: all 0.3s ease;
+  &:hover {
+    background-color: #000;
+    color: #00d8d8;
+  }
+`;
+
+const Link = styled.a`
+  margin-top: 0.725rem;
+  font-size: 0.75rem;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 300;
+  color: rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease;
+  letter-spacing: 0.05em;
+  &:hover {
+    color: rgba(4, 120, 87, 1);
+  }
+`;
+
+const Login = () => {
+  return (
+    <Container className='flex items-center justify-center w-screen h-screen'>
+      <div className='w-4/12 bg-white p-7'>
+        <h1 className='text-4xl font-light text-gray-700'>LOGIN TO ACCOUNT</h1>
+        <form className='flex flex-col'>
+          <Input placeholder='email' />
+          <Input placeholder='password' />
+          <Button className='w-5/12 p-3 text-white bg-green-700'>LOGIN</Button>
+          <Link>DO NOT REMEMBER THE PASSWORD ?</Link>
+          <Link>CREATE A NEW ACCOUNT</Link>
+        </form>
+      </div>
+    </Container>
+  );
+};
+
+export default Login;
