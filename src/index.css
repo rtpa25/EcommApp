@@ -16,3 +16,6 @@
 
 @tailwind utilities;
 
+html{
+  box-sizing: border-box;
+}
