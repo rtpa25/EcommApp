@@ -24,7 +24,7 @@ const TopButton = styled.button<TopButtonProps>`
   }
   @media only screen and (max-width: 500px) {
     margin: 1rem 0;
-    width: 50%;
+    width: 70%;
   }
 `;
 
@@ -82,7 +82,6 @@ const PriceDetail = styled.div`
 const ProductAmountContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
 `;
 
 const ProductAmount = styled.div`
@@ -91,7 +90,7 @@ const ProductAmount = styled.div`
 `;
 
 const ProductPrice = styled.div`
-  font-size: 1.875rem;
+  font-size: 1.5rem;
   font-weight: 200;
 `;
 

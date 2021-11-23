@@ -52,7 +52,7 @@ const Navbar = () => {
         </SearchBar>
 
         <div className='text-center'>
-          <Heading className='text-4xl font-semibold'>LAMA.</Heading>
+          <Heading className='text-4xl font-semibold'>NYKA.</Heading>
         </div>
         <Right className='flex items-center justify-end '>
           <div className='right-btn'>REGISTER</div>

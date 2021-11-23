@@ -80,7 +80,7 @@ const Footer = () => {
   return (
     <div className='flex'>
       <div className='flex flex-col flex-1 p-7'>
-        <h1 className='text-4xl font-semibold'>LAMA.</h1>
+        <h1 className='text-4xl font-semibold'>NYKA.</h1>
         <p className='my-7 '>
           There are many variations of passages of Lorem Ipsum available, but
           the majority have suffered alteration in some form, by injected
@@ -119,14 +119,14 @@ const Footer = () => {
       <Contact className=' p-7'>
         <Title>Contact</Title>
         <ContactItem>
-          <Room style={{ marginRight: '10px' }} /> 622 Dixie Path , South
-          Tobinchester 98336
+          <Room style={{ marginRight: '10px' }} /> Unit-8 Bhubaneshwar, Odisha,
+          India
         </ContactItem>
         <ContactItem>
-          <Phone style={{ marginRight: '10px' }} /> +1 234 56 78
+          <Phone style={{ marginRight: '10px' }} /> +91-9861736576
         </ContactItem>
         <ContactItem>
-          <MailOutline style={{ marginRight: '10px' }} /> contact@lama.dev
+          <MailOutline style={{ marginRight: '10px' }} /> pandaronit25@gmail.com
         </ContactItem>
         <img src='https://i.ibb.co/Qfvn4z6/payment.png' alt='payment methods' />
       </Contact>
