@@ -18,6 +18,8 @@ export interface UserDocument extends mongoose.Document {
   createdAt: Date;
   updatedAt: Date;
   isAdmin: boolean;
+  getJwtToken(): string;
+  isValidPassword(userSendPassword: string): Promise<boolean>;
 }
 
 //create a new instance of schema
