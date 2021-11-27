@@ -253,7 +253,11 @@ export const getAllUsers = async (
         message: 'Admin Only',
       });
     }
-    const users = await User.find({});
+    const query = req.query.new;
+    const users = query
+      ? //find the 5 newly created users
+        await User.find().sort({ _id: -1 }).limit(5)
+      : await User.find();
     res.status(200).json({
       sucess: true,
       users: users,

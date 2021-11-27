@@ -12,8 +12,10 @@ import connect from './config/db';
 import logger from './utils/logger';
 
 //Routes import statements
-
 import user from './routes/user.route';
+import product from './routes/product.route';
+import order from './routes/order.route';
+import cart from './routes/cart.route';
 
 const app = express();
 
@@ -32,6 +34,9 @@ app.use(express.urlencoded({ extended: true }));
 
 //router middleware
 app.use('/api/v1', user);
+app.use('/api/v1', product);
+app.use('/api/v1', order);
+app.use('/api/v1', cart);
 
 //cloudinary config
 cloudinary.config({

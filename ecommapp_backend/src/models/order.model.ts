@@ -42,7 +42,7 @@ const OrderSchema = new Schema(
     status: { type: String, default: 'pending' },
     address: {
       place: {
-        deliveryPlace: String,
+        type: String,
         required: true,
       },
       email: {

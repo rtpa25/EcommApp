@@ -30,6 +30,7 @@ const CartSchema = new Schema(
           type: Number,
           required: true,
           default: 1,
+          minlength: 0,
         },
       },
     ],

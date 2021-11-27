@@ -11,8 +11,8 @@ export interface ProductDocument extends mongoose.Document {
   desc: string;
   createdAt: Date;
   updatedAt: Date;
-  img: string;
-  categories: string[];
+  img: { secure_url: String; id: string };
+  categories: [];
   size: string;
   color: string;
   price: number;
@@ -33,8 +33,11 @@ const ProductSchema = new Schema(
       required: [true, 'Product description is required'],
     },
     img: {
-      type: String,
-      required: true,
+      secure_url: {
+        type: String,
+        required: [true, 'Image url is required and needs to be secure'],
+      },
+      id: { type: String, required: true },
     },
     categories: { type: Array },
     size: { type: String },
