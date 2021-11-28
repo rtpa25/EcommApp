@@ -6,6 +6,11 @@ import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
 import { Add, Remove } from '@material-ui/icons';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useAppDispatch } from '../hooks';
+import { addProduct } from '../store/slices/cartSlice';
 
 const Wrapper = styled.div`
   @media only screen and (max-width: 685px) {
@@ -91,53 +96,96 @@ const Button = styled.button`
 `;
 
 const Product = () => {
+  const location = useLocation();
+  const id = location.pathname.split('/')[2];
+  const [product, setProduct] = useState<any>({
+    name: '',
+    price: 0,
+    img: { secure_url: '' },
+    desc: '',
+    color: [''],
+    size: [''],
+    quantity: 1,
+  });
+  const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState('');
+  const [size, setSize] = useState('');
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/v1/getSingleProduct/${id}`
+        );
+        setProduct(res.data.product);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProduct();
+  }, [id]);
+
+  const handleQuantity = (type: 'dec' | 'inc') => {
+    if (type === 'dec') {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const handleClick = () => {
+    dispatch(
+      addProduct({
+        product: { ...product, quantity: quantity },
+        quantity: quantity,
+        price: product.price,
+      })
+    );
+  };
+
   return (
     <div>
       <Navbar />
       <Announcement />
       <Wrapper className='flex p-12'>
         <ImgContainer className='flex-1'>
-          <Image src='https://i.ibb.co/S6qMxwr/jean.jpg' />
+          <Image src={`${product.img.secure_url}`} />
         </ImgContainer>
         <InfoContainer className='flex-1 px-12 py-0'>
           <Title className='text-4xl text-gray-700 font-extralight'>
-            Denim Jumpsuit
+            {product.name}
           </Title>
-          <Desc className='mx-0 text-gray-700 my-7'>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            venenatis, dolor in finibus malesuada, lectus ipsum porta nunc, at
-            iaculis arcu nisi sed mauris. Nulla fermentum vestibulum ex, eget
-            tristique tortor pretium ut. Curabitur elit justo, consequat id
-            condimentum ac, volutpat ornare.
-          </Desc>
-          <Price className='text-4xl font-thin text-gray-500'>$ 20</Price>
+          <Desc className='mx-0 text-gray-700 my-7'>{product.desc}</Desc>
+          <Price className='text-4xl font-thin text-gray-500'>
+            $ {product.price}
+          </Price>
           <FilterContainer className='flex justify-between w-6/12 mx-0 my-7'>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              <FilterColor color='black' />
-              <FilterColor color='darkblue' />
-              <FilterColor color='gray' />
+              {product.color?.map((c: string) => (
+                <FilterColor color={c} key={c} onClick={() => setColor(c)} />
+              ))}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
+              <FilterSize onChange={(e) => setSize(e.target.value)}>
+                {product.size.map((s: string) => (
+                  <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                ))}
               </FilterSize>
             </Filter>
           </FilterContainer>
           <AddContainer className='flex items-center justify-between w-6/12'>
             <AmountContainer className='flex items-center text-semibold'>
-              <Remove />
+              <Remove onClick={() => handleQuantity('dec')} />
               <Amount className='flex items-center justify-center mx-2 my-0 border border-green-600 border-solid rounded-lg w-7 h-7'>
-                1
+                {quantity}
               </Amount>
-              <Add />
+              <Add onClick={() => handleQuantity('inc')} />
             </AmountContainer>
-            <Button className='p-3.5 border border-green-600 border-solid font-medium'>
+            <Button
+              className='p-3.5 border border-green-600 border-solid font-medium'
+              onClick={handleClick}>
               ADD TO CART
             </Button>
           </AddContainer>

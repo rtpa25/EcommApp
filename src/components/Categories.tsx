@@ -14,7 +14,14 @@ const Categories = () => {
   return (
     <Container className='flex justify-between p-7'>
       {categories.map((item) => {
-        return <CategoryItem img={item.img} title={item.title} id={item.id} />;
+        return (
+          <CategoryItem
+            img={item.img}
+            title={item.title}
+            id={item.id}
+            category={item.category}
+          />
+        );
       })}
     </Container>
   );

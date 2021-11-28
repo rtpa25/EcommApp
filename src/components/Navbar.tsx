@@ -2,7 +2,9 @@
 
 import { Badge } from '@material-ui/core';
 import { Search, ShoppingCartOutlined } from '@material-ui/icons';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAppSelector } from '../hooks';
 
 const Container = styled.div`
   @media only screen and (max-width: 890px) {
@@ -43,6 +45,8 @@ const Input = styled.input`
 `;
 
 const Navbar = () => {
+  const cartQuantity = useAppSelector((state) => state.cart.quantity);
+
   return (
     <Container className='h-24'>
       <div className='flex justify-between px-4 py-4'>
@@ -57,11 +61,13 @@ const Navbar = () => {
         <Right className='flex items-center justify-end '>
           <div className='right-btn'>REGISTER</div>
           <div className='right-btn'>SIGNIN</div>
-          <div className='right-btn'>
-            <Badge badgeContent={4} color='primary'>
-              <ShoppingCartOutlined />
-            </Badge>
-          </div>
+          <Link to={'/cart'}>
+            <div className='right-btn'>
+              <Badge badgeContent={cartQuantity} color='primary'>
+                <ShoppingCartOutlined />
+              </Badge>
+            </div>
+          </Link>
         </Right>
       </div>
     </Container>

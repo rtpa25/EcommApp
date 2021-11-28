@@ -5,12 +5,9 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
 } from '@material-ui/icons';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-interface ProductProps {
-  img: string;
-  id: number;
-}
 const Info = styled.div`
   opacity: 0;
   top: 0;
@@ -49,7 +46,11 @@ const Icon = styled.div`
   }
 `;
 
-const Product: React.FC<ProductProps> = ({ img }) => {
+interface ProductProps {
+  img: string;
+  id: string;
+}
+const Product: React.FC<ProductProps> = ({ img, id }) => {
   return (
     <Container className='m-1.5 h-80 flex items-center justify-center bg-blue-50 relative'>
       <Circle className='absolute bg-white h-60 w-60' />
@@ -58,9 +59,12 @@ const Product: React.FC<ProductProps> = ({ img }) => {
         <Icon>
           <ShoppingCartOutlined />
         </Icon>
-        <Icon>
-          <SearchOutlined />
-        </Icon>
+        <Link to={`/product/${id}`}>
+          <Icon>
+            <SearchOutlined />
+          </Icon>
+        </Link>
+
         <Icon>
           <FavoriteBorderOutlined />
         </Icon>

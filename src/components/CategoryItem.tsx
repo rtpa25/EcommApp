@@ -1,11 +1,6 @@
 /** @format */
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
-interface CategoryItemProps {
-  id: number;
-  img: string;
-  title: string;
-}
 
 const Info = styled.div`
   top: 0;
@@ -53,16 +48,29 @@ const Title = styled.h1`
   }
 `;
 
-const CategoryItem: React.FC<CategoryItemProps> = ({ img, title }) => {
+interface CategoryItemProps {
+  id: number;
+  img: string;
+  title: string;
+  category: string;
+}
+
+const CategoryItem: React.FC<CategoryItemProps> = ({
+  img,
+  title,
+  category,
+}) => {
   return (
     <Container className='relative flex-1'>
-      <img src={img} alt='' className='object-cover w-full h-full' />
-      <Info className='absolute flex flex-col items-center justify-center w-full h-full'>
-        <Title className='mb-5 text-4xl font-semibold text-white'>
-          {title}
-        </Title>
-        <Button className='p-3 cursor-pointer'>SHOP NOW</Button>
-      </Info>
+      <Link to={`/products/${category}`}>
+        <img src={img} alt='' className='object-cover w-full h-full' />
+        <Info className='absolute flex flex-col items-center justify-center w-full h-full'>
+          <Title className='mb-5 text-4xl font-semibold text-white'>
+            {title}
+          </Title>
+          <Button className='p-3 cursor-pointer'>SHOP NOW</Button>
+        </Info>
+      </Link>
     </Container>
   );
 };

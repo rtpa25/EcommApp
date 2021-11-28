@@ -1,10 +1,15 @@
 /** @format */
 import { Add, Remove } from '@material-ui/icons';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import StripeCheckout from 'react-stripe-checkout';
 import styled from 'styled-components';
 import Announcement from '../components/Announcement';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
+import { useAppSelector } from '../hooks';
 
 interface TopButtonProps {
   bod: 'outlined' | 'filled';
@@ -134,6 +139,29 @@ const TopButtons = styled.div`
 `;
 
 const Cart = () => {
+  const cart = useAppSelector((state) => state.cart);
+  const [stripeToken, setStripeToken] = useState(null);
+  const KEY = process.env.REACT_APP_STRIPE;
+  const navigate = useNavigate();
+  const onToken = (token: any) => {
+    setStripeToken(token);
+  };
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await axios.post(
+          'http://localhost:5000/api/v1/captureStripePayment',
+          {
+            amount: cart.total * 100,
+          }
+        );
+        stripeToken && cart.total >= 10 && navigate('sucess');
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    makeRequest();
+  }, [cart.total, navigate, stripeToken]);
   return (
     <div className=''>
       <Navbar />
@@ -152,63 +180,46 @@ const Cart = () => {
         </TopButtons>
         <Wrapper className='flex justify-between'>
           <Info className=''>
-            <Product>
-              <ProductDetail>
-                <Image src='https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A' />
-                <Details>
-                  <span>
-                    <b>Product:</b> JESSIE THUNDER SHOES
-                  </span>
-                  <span>
-                    <b>ID:</b> 93813718293
-                  </span>
-                  <ProductColor color='black' />
-                  <span>
-                    <b>Size:</b> 37.5
-                  </span>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <QuantityButtonInc />
-                  <ProductAmount>2</ProductAmount>
-                  <QuantityButtonDec />
-                </ProductAmountContainer>
-                <ProductPrice>$ 30</ProductPrice>
-              </PriceDetail>
-            </Product>
+            {cart.products.map((product) => {
+              return (
+                <Product>
+                  <ProductDetail>
+                    <Image src={product.img.secure_url} />
+                    <Details>
+                      <span>
+                        <b>Product:</b> {product.name}
+                      </span>
+                      <span>
+                        <b>ID:</b> {product._id}
+                      </span>
+                      <ProductColor color={product.color} />
+                      <span>
+                        <b>Size:</b> {product.size}
+                      </span>
+                    </Details>
+                  </ProductDetail>
+                  <PriceDetail>
+                    <ProductAmountContainer>
+                      <QuantityButtonInc />
+                      <ProductAmount>{product.quantity}</ProductAmount>
+                      <QuantityButtonDec />
+                    </ProductAmountContainer>
+                    <ProductPrice>
+                      {' '}
+                      $ {product.price * product.quantity}
+                    </ProductPrice>
+                  </PriceDetail>
+                </Product>
+              );
+            })}
+
             <hr />
-            <Product>
-              <ProductDetail>
-                <Image src='https://i.pinimg.com/originals/2d/af/f8/2daff8e0823e51dd752704a47d5b795c.png' />
-                <Details>
-                  <span>
-                    <b>Product:</b> HAKURA T-SHIRT
-                  </span>
-                  <span>
-                    <b>ID:</b> 93813718293
-                  </span>
-                  <ProductColor color='gray' />
-                  <span>
-                    <b>Size:</b> M
-                  </span>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <QuantityButtonInc />
-                  <ProductAmount>1</ProductAmount>
-                  <QuantityButtonDec />
-                </ProductAmountContainer>
-                <ProductPrice>$ 20</ProductPrice>
-              </PriceDetail>
-            </Product>
           </Info>
           <Summary className=''>
             <h1 className='text-4xl font-extralight'>ORDER SUMMARY</h1>
             <SummaryItem>
               <span>Subtotal</span>
-              <span>$ 80</span>
+              <span>$ {cart.total}</span>
             </SummaryItem>
             <SummaryItem>
               <span>Estimated Shipping</span>
@@ -220,13 +231,23 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem className='text-xl font-semibold'>
               <span>Total</span>
-              <span>$ 80</span>
+              <span>$ {cart.total}</span>
             </SummaryItem>
-            <TopButton
-              bod='outlined'
-              className='border border-green-500 border-solid '>
-              CHECKOUT NOW
-            </TopButton>
+            <StripeCheckout
+              name='NYKA'
+              image='https://cdn.gadgets360.com/kostprice/assets/store/1493096224_nykaa.png'
+              billingAddress
+              shippingAddress
+              description={`Your total is $${cart.total}`}
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey={KEY as string}>
+              <TopButton
+                bod='outlined'
+                className='border border-green-500 border-solid '>
+                CHECKOUT NOW
+              </TopButton>
+            </StripeCheckout>
           </Summary>
         </Wrapper>
       </div>
