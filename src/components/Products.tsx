@@ -38,7 +38,10 @@ const Products: React.FC<ProductsProps> = ({ category, filters, sort }) => {
         const res = await axios.get(
           category
             ? `http://localhost:5000/api/v1/getAllProducts?category=${category}`
-            : `http://localhost:5000/api/v1/getAllProducts`
+            : `http://localhost:5000/api/v1/getAllProducts`,
+          {
+            withCredentials: true,
+          }
         );
         setProducts(res.data.products);
         console.log(res);

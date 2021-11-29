@@ -2,7 +2,7 @@
 import { Add, Remove } from '@material-ui/icons';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import StripeCheckout from 'react-stripe-checkout';
 import styled from 'styled-components';
 import Announcement from '../components/Announcement';
@@ -59,17 +59,6 @@ const Details = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-`;
-
-interface ProductColorProps {
-  color: string;
-}
-
-const ProductColor = styled.div<ProductColorProps>`
-  height: 1.25rem;
-  width: 1.25rem;
-  border-radius: 50%;
-  background-color: ${(props) => props.color};
 `;
 
 const PriceDetail = styled.div`
@@ -146,13 +135,16 @@ const Cart = () => {
   const onToken = (token: any) => {
     setStripeToken(token);
   };
+
   useEffect(() => {
     const makeRequest = async () => {
       try {
-        const res = await axios.post(
+        await axios.post(
           'http://localhost:5000/api/v1/captureStripePayment',
+
           {
             amount: cart.total * 100,
+            withCredentials: true,
           }
         );
         stripeToken && cart.total >= 10 && navigate('sucess');
@@ -169,14 +161,27 @@ const Cart = () => {
       <div className='p-5 text-gray-700'>
         <h1 className='text-4xl font-light text-center'>YOUR BAG</h1>
         <TopButtons className='flex items-center justify-between p-5'>
-          <TopButton
-            bod='outlined'
-            className='border border-green-500 border-solid '>
-            CONTINUE SHOPPING
-          </TopButton>
-          <TopButton bod='filled' className='text-green-500 bg-black '>
-            CHECKOUT NOW
-          </TopButton>
+          <Link to={'/products'}>
+            <TopButton
+              bod='outlined'
+              className='border border-green-500 border-solid '>
+              CONTINUE SHOPPING
+            </TopButton>
+          </Link>
+
+          <StripeCheckout
+            name='NYKA'
+            image='https://cdn.gadgets360.com/kostprice/assets/store/1493096224_nykaa.png'
+            billingAddress
+            shippingAddress
+            description={`Your total is $${cart.total}`}
+            amount={cart.total * 100}
+            token={onToken}
+            stripeKey={KEY as string}>
+            <TopButton bod='filled' className='text-green-500 bg-black '>
+              CHECKOUT NOW
+            </TopButton>
+          </StripeCheckout>
         </TopButtons>
         <Wrapper className='flex justify-between'>
           <Info className=''>
@@ -184,17 +189,13 @@ const Cart = () => {
               return (
                 <Product>
                   <ProductDetail>
-                    <Image src={product.img.secure_url} />
+                    <Image src={product.product.img.secure_url} />
                     <Details>
                       <span>
-                        <b>Product:</b> {product.name}
+                        <b>Product:</b> {product.product.name}
                       </span>
                       <span>
-                        <b>ID:</b> {product._id}
-                      </span>
-                      <ProductColor color={product.color} />
-                      <span>
-                        <b>Size:</b> {product.size}
+                        <b>ID:</b> {product.product._id}
                       </span>
                     </Details>
                   </ProductDetail>
@@ -206,7 +207,7 @@ const Cart = () => {
                     </ProductAmountContainer>
                     <ProductPrice>
                       {' '}
-                      $ {product.price * product.quantity}
+                      $ {product.product.price * product.quantity}
                     </ProductPrice>
                   </PriceDetail>
                 </Product>

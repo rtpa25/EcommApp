@@ -1,6 +1,11 @@
 /** @format */
 
+import Cookies from 'js-cookie';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { login } from '../store/thunks/userThunk';
 
 const Container = styled.div`
   background: linear-gradient(rgba(0, 78, 14, 0.5), rgba(209, 209, 209, 0.5)),
@@ -23,6 +28,10 @@ const Button = styled.button`
   &:hover {
     background-color: #000;
     color: #00d8d8;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    color: #004927;
   }
 `;
 
@@ -55,15 +64,50 @@ const Form = styled.form`
   }
 `;
 
+const Error = styled(Link)`
+  color: red;
+`;
+
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useAppDispatch();
+  const { isFetching, error } = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  const loginCkickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    let res = await login(dispatch, { email: email, password: password });
+    if (error === false && isFetching === false) {
+      localStorage.setItem('token', JSON.stringify(res?.data.token));
+      Cookies.set('token', res?.data.token);
+      navigate('/products/');
+    }
+  };
+
   return (
     <Container className='flex items-center justify-center w-screen h-screen'>
       <Wrapper className='w-4/12 bg-white p-7'>
         <h1 className='text-4xl font-light text-gray-700'>LOGIN TO ACCOUNT</h1>
         <Form className='flex flex-col'>
-          <Input placeholder='email' />
-          <Input placeholder='password' />
-          <Button className='w-5/12 p-3 text-white bg-green-700'>LOGIN</Button>
+          <Input
+            placeholder='email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            placeholder='password'
+            type='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button
+            disabled={isFetching}
+            className='w-5/12 p-3 text-white bg-green-700'
+            onClick={loginCkickHandler}>
+            LOGIN
+          </Button>
+          {error && <Error>Something went wrong...</Error>}
           <Link>DO NOT REMEMBER THE PASSWORD ?</Link>
           <Link>CREATE A NEW ACCOUNT</Link>
         </Form>

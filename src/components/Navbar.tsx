@@ -1,7 +1,7 @@
 /** @format */
 
 import { Badge } from '@material-ui/core';
-import { Search, ShoppingCartOutlined } from '@material-ui/icons';
+import { ShoppingCartOutlined } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAppSelector } from '../hooks';
@@ -12,11 +12,6 @@ const Container = styled.div`
   }
 `;
 
-const SearchBar = styled.div`
-  @media only screen and (max-width: 890px) {
-    display: none;
-  }
-`;
 const Right = styled.div`
   @media only screen and (max-width: 890px) {
     justify-content: flex-start;
@@ -37,37 +32,41 @@ const Heading = styled.h1`
   }
 `;
 
-const Input = styled.input`
-  &:focus {
-    outline: none !important;
-    border: 1px solid teal;
-  }
-`;
-
 const Navbar = () => {
   const cartQuantity = useAppSelector((state) => state.cart.quantity);
+  const token = localStorage.getItem('token');
 
   return (
     <Container className='h-24'>
       <div className='flex justify-between px-4 py-4'>
-        <SearchBar className='flex items-center p-2 ml-10 border border-gray-300 border-solid'>
-          <Input className='border-none' />
-          <Search style={{ color: 'gray', fontSize: 19 }} />
-        </SearchBar>
+        <Link to={'/products'}>
+          <div className='text-center'>
+            <Heading className='text-4xl font-semibold'>NYKA.</Heading>
+          </div>
+        </Link>
 
-        <div className='text-center'>
-          <Heading className='text-4xl font-semibold'>NYKA.</Heading>
-        </div>
         <Right className='flex items-center justify-end '>
-          <div className='right-btn'>REGISTER</div>
-          <div className='right-btn'>SIGNIN</div>
-          <Link to={'/cart'}>
-            <div className='right-btn'>
-              <Badge badgeContent={cartQuantity} color='primary'>
-                <ShoppingCartOutlined />
-              </Badge>
-            </div>
-          </Link>
+          {token === null && (
+            <Link to={'/register'}>
+              <div className='right-btn'>REGISTER</div>
+            </Link>
+          )}
+
+          {token === null && (
+            <Link to={'/login'}>
+              <div className='right-btn'>SIGNIN</div>
+            </Link>
+          )}
+
+          {token !== null && (
+            <Link to={'/cart'}>
+              <div className='right-btn'>
+                <Badge badgeContent={cartQuantity} color='primary'>
+                  <ShoppingCartOutlined />
+                </Badge>
+              </div>
+            </Link>
+          )}
         </Right>
       </div>
     </Container>

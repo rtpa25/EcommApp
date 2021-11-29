@@ -133,14 +133,27 @@ const Product = () => {
     }
   };
 
-  const handleClick = () => {
-    dispatch(
-      addProduct({
-        product: { ...product, quantity: quantity },
-        quantity: quantity,
-        price: product.price,
-      })
-    );
+  const handleClick = async () => {
+    try {
+      await axios.request({
+        url: 'http://localhost:5000/api/v1/createCart',
+        method: 'post',
+        withCredentials: true,
+        data: {
+          product: product._id,
+          quantity: quantity,
+        },
+      });
+      dispatch(
+        addProduct({
+          product: { ...product, quantity: quantity },
+          quantity: quantity,
+          price: product.price,
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

@@ -6,12 +6,14 @@ interface UserState {
   currentUser: Object | null;
   isFetching: boolean;
   error: boolean;
+  token: string | undefined;
 }
 
 const initialState: UserState = {
   currentUser: null,
   isFetching: false,
   error: false,
+  token: undefined,
 };
 
 const UserSlice = createSlice({
@@ -23,7 +25,8 @@ const UserSlice = createSlice({
     },
     loginSucess: (state, action: PayloadAction<any>) => {
       state.isFetching = false;
-      state.currentUser = action.payload;
+      state.currentUser = action.payload.user;
+      state.token = action.payload.token;
     },
     loginFailure: (state) => {
       state.isFetching = false;
