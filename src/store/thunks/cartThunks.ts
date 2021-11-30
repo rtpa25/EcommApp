@@ -35,3 +35,40 @@ export const fetchCart = async (dispatch: AppDispatch) => {
     dispatch(loadingFailed());
   }
 };
+
+export const updateCart = async (
+  dispatch: AppDispatch,
+  cartItemId: string,
+  productId: string,
+  newQuantity: number
+) => {
+  dispatch(loadingStart());
+  try {
+    await axios.put(`http://localhost:5000/api/v1/updateCart/${cartItemId}`, {
+      product: productId,
+      quantity: newQuantity,
+      withCredentials: true,
+    });
+    dispatch(loadingsucess());
+  } catch (error) {
+    dispatch(loadingFailed());
+  }
+};
+
+export const deleteCartItem = async (
+  dispatch: AppDispatch,
+  cartItemId: string
+) => {
+  dispatch(loadingStart());
+  try {
+    await axios.delete(
+      `http://localhost:5000/api/v1/deleteCart/${cartItemId}`,
+      {
+        withCredentials: true,
+      }
+    );
+    dispatch(loadingsucess());
+  } catch (error) {
+    dispatch(loadingFailed());
+  }
+};

@@ -83,10 +83,22 @@ const Products: React.FC<ProductsProps> = ({ category, filters, sort }) => {
     <Container className=' p-7'>
       {category
         ? filteredProducts.map((product: ProductDocument) => {
-            return <Product img={product.img.secure_url} id={product._id} />;
+            return (
+              <Product
+                img={product.img.secure_url}
+                id={product._id}
+                key={product._id}
+              />
+            );
           })
         : products.slice(0, 8).map((product: ProductDocument) => {
-            return <Product img={product.img.secure_url} id={product._id} />;
+            return (
+              <Product
+                img={product.img.secure_url}
+                id={product._id}
+                key={product._id}
+              />
+            );
           })}
     </Container>
   );

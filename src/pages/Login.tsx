@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../hooks';
+import { fetchCart } from '../store/thunks/cartThunks';
 import { login } from '../store/thunks/userThunk';
 
 const Container = styled.div`
@@ -79,8 +80,9 @@ const Login = () => {
     e.preventDefault();
     let res = await login(dispatch, { email: email, password: password });
     if (error === false && isFetching === false) {
-      localStorage.setItem('token', JSON.stringify(res?.data.token));
+      Cookies.remove('token');
       Cookies.set('token', res?.data.token);
+      await fetchCart(dispatch);
       navigate('/products/');
     }
   };

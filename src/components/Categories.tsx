@@ -20,6 +20,7 @@ const Categories = () => {
             title={item.title}
             id={item.id}
             category={item.category}
+            key={item.id}
           />
         );
       })}

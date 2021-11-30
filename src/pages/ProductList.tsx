@@ -57,6 +57,7 @@ const ProductList = () => {
       ...filters,
       [e!.target.name]: value,
     });
+    console.log(filters, sort);
   };
 
   return (
@@ -77,9 +78,7 @@ const ProductList = () => {
             <Option>Green</Option>
           </Select>
           <Select name='size' onChange={handleFilters}>
-            <Option disabled selected>
-              Size
-            </Option>
+            <Option disabled>Size</Option>
             <Option>XS</Option>
             <Option>S</Option>
             <Option>M</Option>
@@ -89,8 +88,10 @@ const ProductList = () => {
         </Filter>
         <Filter>
           <FilterText>Sort Products:</FilterText>
-          <Select onChange={(e) => setSort(e.target.value)}>
-            <Option selected>Newest</Option>
+          <Select
+            defaultValue={'Newest'}
+            onChange={(e) => setSort(e.target.value)}>
+            <Option>Newest</Option>
             <Option>Price (asc)</Option>
             <Option>Price (desc)</Option>
           </Select>

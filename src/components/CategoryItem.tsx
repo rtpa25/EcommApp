@@ -1,4 +1,5 @@
 /** @format */
+import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -60,9 +61,10 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
   title,
   category,
 }) => {
+  const token = Cookies.get('token');
   return (
     <Container className='relative flex-1'>
-      <Link to={`/products/${category}`}>
+      <Link to={token ? `/products/${category}` : 'register'}>
         <img src={img} alt='' className='object-cover w-full h-full' />
         <Info className='absolute flex flex-col items-center justify-center w-full h-full'>
           <Title className='mb-5 text-4xl font-semibold text-white'>

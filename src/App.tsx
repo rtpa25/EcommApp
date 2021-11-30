@@ -12,20 +12,25 @@ import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 import { useAppDispatch } from './hooks';
 import { fetchCart } from './store/thunks/cartThunks';
+import { getUserDetails } from './store/thunks/userThunk';
 
 const App = () => {
   const token = Cookies.get('token');
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     const getCart = async () => {
       try {
         await fetchCart(dispatch);
+        await getUserDetails(dispatch);
       } catch (error) {
         console.log(error);
       }
     };
-    getCart();
-  }, [dispatch]);
+    if (token) {
+      getCart();
+    }
+  }, [dispatch, token]);
   return (
     <BrowserRouter>
       <Routes>

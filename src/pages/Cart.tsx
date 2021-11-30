@@ -9,7 +9,12 @@ import Announcement from '../components/Announcement';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
-import { useAppSelector } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import {
+  deleteCartItem,
+  fetchCart,
+  updateCart,
+} from '../store/thunks/cartThunks';
 
 interface TopButtonProps {
   bod: 'outlined' | 'filled';
@@ -130,30 +135,51 @@ const TopButtons = styled.div`
 const Cart = () => {
   const cart = useAppSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
+  const dispatch = useAppDispatch();
   const KEY = process.env.REACT_APP_STRIPE;
   const navigate = useNavigate();
   const onToken = (token: any) => {
     setStripeToken(token);
   };
 
-  useEffect(() => {
-    const makeRequest = async () => {
-      try {
-        await axios.post(
-          'http://localhost:5000/api/v1/captureStripePayment',
-
-          {
-            amount: cart.total * 100,
-            withCredentials: true,
-          }
-        );
-        stripeToken && cart.total >= 10 && navigate('sucess');
-      } catch (error) {
-        console.log(error);
+  const updateCartHandler = async (
+    cartItemId: string,
+    productId: string,
+    currentQuantity: number,
+    type: 'inc' | 'dec'
+  ) => {
+    let currentQuantityPrototype = currentQuantity;
+    if (type === 'inc') {
+      currentQuantityPrototype++;
+    } else {
+      if (currentQuantityPrototype > 1) {
+        currentQuantityPrototype--;
+      } else {
+        await deleteCartItem(dispatch, cartItemId);
       }
-    };
-    makeRequest();
-  }, [cart.total, navigate, stripeToken]);
+    }
+    await updateCart(dispatch, cartItemId, productId, currentQuantityPrototype);
+    await fetchCart(dispatch);
+  };
+
+  const paymentHandler = async () => {
+    try {
+      let res = await axios.post(
+        'http://localhost:5000/api/v1/captureStripePayment',
+
+        {
+          amount: cart.total * 100,
+          withCredentials: true,
+        }
+      );
+      console.log(res);
+
+      stripeToken && cart.total >= 10 && navigate('sucess');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className=''>
       <Navbar />
@@ -178,7 +204,10 @@ const Cart = () => {
             amount={cart.total * 100}
             token={onToken}
             stripeKey={KEY as string}>
-            <TopButton bod='filled' className='text-green-500 bg-black '>
+            <TopButton
+              bod='filled'
+              className='text-green-500 bg-black '
+              onClick={paymentHandler}>
               CHECKOUT NOW
             </TopButton>
           </StripeCheckout>
@@ -187,7 +216,7 @@ const Cart = () => {
           <Info className=''>
             {cart.products.map((product) => {
               return (
-                <Product>
+                <Product key={product.product._id}>
                   <ProductDetail>
                     <Image src={product.product.img.secure_url} />
                     <Details>
@@ -201,9 +230,27 @@ const Cart = () => {
                   </ProductDetail>
                   <PriceDetail>
                     <ProductAmountContainer>
-                      <QuantityButtonInc />
+                      <QuantityButtonInc
+                        onClick={() =>
+                          updateCartHandler(
+                            product._id,
+                            product.product._id,
+                            product.quantity,
+                            'inc'
+                          )
+                        }
+                      />
                       <ProductAmount>{product.quantity}</ProductAmount>
-                      <QuantityButtonDec />
+                      <QuantityButtonDec
+                        onClick={() =>
+                          updateCartHandler(
+                            product._id,
+                            product.product._id,
+                            product.quantity,
+                            'dec'
+                          )
+                        }
+                      />
                     </ProductAmountContainer>
                     <ProductPrice>
                       {' '}
@@ -245,6 +292,7 @@ const Cart = () => {
               stripeKey={KEY as string}>
               <TopButton
                 bod='outlined'
+                onClick={paymentHandler}
                 className='border border-green-500 border-solid '>
                 CHECKOUT NOW
               </TopButton>

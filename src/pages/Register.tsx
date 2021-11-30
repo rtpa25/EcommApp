@@ -1,6 +1,11 @@
 /** @format */
 
+import Cookies from 'js-cookie';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { signup } from '../store/thunks/userThunk';
 
 const Container = styled.div`
   background: linear-gradient(rgba(0, 78, 14, 0.5), rgba(209, 209, 209, 0.5)),
@@ -40,23 +45,84 @@ const Form = styled.form`
   }
 `;
 
+const Error = styled.a`
+  margin-top: 0.725rem;
+  font-size: 0.75rem;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 300;
+  color: rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease;
+  letter-spacing: 0.05em;
+  color: #810000;
+  &:hover {
+    color: #ff0000;
+  }
+`;
+
 const Register = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [confirmPassword, setconfirmPassword] = useState('');
+  const dispatch = useAppDispatch();
+  const { isFetching, error } = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  const signupHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    let res = await signup(dispatch, {
+      email: email,
+      username: username,
+      password: confirmPassword,
+    });
+    if (error === false && isFetching === false) {
+      Cookies.remove('token');
+      Cookies.set('token', res?.data.token);
+      navigate('/products/');
+    }
+  };
+
   return (
     <Container className='flex items-center justify-center w-screen h-screen'>
       <Wrapper className='w-5/12 bg-white p-7'>
         <h1 className='text-4xl font-light text-gray-700'>CREATE AN ACCOUNT</h1>
         <Form className='flex flex-wrap'>
-          <Input placeholder='name' />
-          <Input placeholder='last name' />
-          <Input placeholder='username' />
-          <Input placeholder='email' />
-          <Input placeholder='password' />
-          <Input placeholder='confirm password' />
+          <Input
+            placeholder='username'
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <Input
+            placeholder='email'
+            type={'email'}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            placeholder='password'
+            type='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Input
+            placeholder='confirm password'
+            type='password'
+            value={confirmPassword}
+            onChange={(e) => setconfirmPassword(e.target.value)}
+          />
+          {error && <Error>Something went wrong...</Error>}
           <span className='mx-0 my-5 text-sm text-gray-500'>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </span>
-          <Button className='w-5/12 p-3 text-white bg-green-700'>CREATE</Button>
+
+          <Button
+            disabled={isFetching}
+            className='w-5/12 p-3 text-white bg-green-700'
+            onClick={signupHandler}>
+            CREATE
+          </Button>
         </Form>
       </Wrapper>
     </Container>

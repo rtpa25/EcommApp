@@ -55,6 +55,7 @@ const Slider = () => {
               title={item.title}
               description={item.desc}
               bg={item.bg}
+              key={item.id}
             />
           );
         })}

@@ -1,16 +1,17 @@
 /** @format */
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import Cookies from 'js-cookie';
 
 interface UserState {
-  currentUser: Object | null;
+  currentUser: Object | undefined;
   isFetching: boolean;
   error: boolean;
   token: string | undefined;
 }
 
 const initialState: UserState = {
-  currentUser: null,
+  currentUser: undefined,
   isFetching: false,
   error: false,
   token: undefined,
@@ -28,6 +29,11 @@ const UserSlice = createSlice({
       state.currentUser = action.payload.user;
       state.token = action.payload.token;
     },
+    getSelfHelper: (state, action: PayloadAction<any>) => {
+      state.isFetching = false;
+      state.currentUser = action.payload.user;
+      state.token = Cookies.get('token');
+    },
     loginFailure: (state) => {
       state.isFetching = false;
       state.error = true;
@@ -35,5 +41,6 @@ const UserSlice = createSlice({
   },
 });
 
-export const { loginStart, loginSucess, loginFailure } = UserSlice.actions;
+export const { loginStart, loginSucess, loginFailure, getSelfHelper } =
+  UserSlice.actions;
 export default UserSlice.reducer;
