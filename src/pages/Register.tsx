@@ -2,7 +2,7 @@
 
 import Cookies from 'js-cookie';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { signup } from '../store/thunks/userThunk';
@@ -112,9 +112,12 @@ const Register = () => {
             onChange={(e) => setconfirmPassword(e.target.value)}
           />
           {error && <Error>Something went wrong...</Error>}
-          <span className='mx-0 my-5 text-sm text-gray-500'>
-            By creating an account, I consent to the processing of my personal
-            data in accordance with the <b>PRIVACY POLICY</b>
+
+          <span className='w-full mx-0 my-5 text-sm text-gray-500'>
+            <Link to={'/login'}>
+              {' '}
+              Already a user <b>SIGN IN</b>{' '}
+            </Link>
           </span>
 
           <Button

@@ -3,8 +3,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 
+interface currentUser {
+  _id: string;
+  username: string;
+  email: string;
+  isAdmin: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 interface UserState {
-  currentUser: Object | undefined;
+  currentUser: currentUser | undefined;
   isFetching: boolean;
   error: boolean;
   token: string | undefined;

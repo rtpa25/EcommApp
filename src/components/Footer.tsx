@@ -9,6 +9,7 @@ import {
   Room,
   Twitter,
 } from '@material-ui/icons';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface SocialIconProps {
@@ -104,15 +105,30 @@ const Footer = () => {
       <Center className=' p-7'>
         <Title>Useful Links</Title>
         <ul className='flex flex-wrap p-0 m-0'>
-          <ListItem>Home</ListItem>
-          <ListItem>Cart</ListItem>
-          <ListItem>Man Fashion</ListItem>
-          <ListItem>Woman Fashion</ListItem>
-          <ListItem>Accessories</ListItem>
-          <ListItem>My Account</ListItem>
-          <ListItem>Order Tracking</ListItem>
-          <ListItem>Wishlist</ListItem>
-          <ListItem>Wishlist</ListItem>
+          <ListItem>
+            <Link to={'/'}>Home </Link>
+          </ListItem>
+
+          <ListItem>
+            <Link to={'/cart'}>Cart </Link>
+          </ListItem>
+          <ListItem>
+            <Link to={'/products/jackets'}>Jackets </Link>
+          </ListItem>
+          <ListItem>
+            <Link to={'/products/shirts'}>Shirts </Link>
+          </ListItem>
+          <ListItem>
+            <Link to={'/products/loungewear'}>loungewear </Link>
+          </ListItem>
+          <ListItem>
+            <Link to={'/userProfile'}>Account Details</Link>
+          </ListItem>
+          <ListItem>
+            <a target='_blank' href='https://google.com/' rel='noreferrer'>
+              Admin-Panel
+            </a>
+          </ListItem>
           <ListItem>Terms</ListItem>
         </ul>
       </Center>
