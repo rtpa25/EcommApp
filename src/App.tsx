@@ -13,6 +13,8 @@ import { useEffect } from 'react';
 import { useAppDispatch } from './hooks';
 import { fetchCart } from './store/thunks/cartThunks';
 import { getUserDetails } from './store/thunks/userThunk';
+import Page404 from './pages/404';
+import UserProfile from './pages/UserProfile';
 
 const App = () => {
   const token = Cookies.get('token');
@@ -44,6 +46,8 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/sucess' element={<Sucess />} />
+        <Route path='/userProfile' element={<UserProfile />} />
+        <Route path='/*' element={<Page404 />} />
       </Routes>
     </BrowserRouter>
   );

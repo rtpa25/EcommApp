@@ -1,7 +1,7 @@
 /** @format */
 import { Add, Remove } from '@material-ui/icons';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import StripeCheckout from 'react-stripe-checkout';
 import styled from 'styled-components';
