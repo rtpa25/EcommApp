@@ -1,6 +1,7 @@
 /** @format */
 
 import axios from 'axios';
+import process from 'process';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Product from './Product';
@@ -29,16 +30,20 @@ export interface ProductDocument {
   price: number;
 }
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const Products: React.FC<ProductsProps> = ({ category, filters, sort }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   useEffect(() => {
+    console.log(API_URL);
+
     const getProducts = async () => {
       try {
         const res = await axios.get(
           category
-            ? `http://localhost:5000/api/v1/getAllProducts?category=${category}`
-            : `http://localhost:5000/api/v1/getAllProducts`,
+            ? `${API_URL}/getAllProducts?category=${category}`
+            : `${API_URL}/getAllProducts`,
           {
             withCredentials: true,
           }

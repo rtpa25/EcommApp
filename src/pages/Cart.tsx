@@ -132,6 +132,8 @@ const TopButtons = styled.div`
   }
 `;
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const Cart = () => {
   const cart = useAppSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
@@ -165,7 +167,7 @@ const Cart = () => {
   const paymentHandler = async () => {
     try {
       let res = await axios.post(
-        'http://localhost:5000/api/v1/captureStripePayment',
+        `${API_URL}/captureStripePayment`,
 
         {
           amount: cart.total * 100,

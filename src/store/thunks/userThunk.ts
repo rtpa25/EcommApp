@@ -1,6 +1,7 @@
 /** @format */
 
 import axios from 'axios';
+import { NavigateFunction } from 'react-router-dom';
 import {
   getSelfHelper,
   loginFailure,
@@ -9,17 +10,23 @@ import {
 } from '../slices/userSlice';
 import { AppDispatch } from '../store';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const login = async (
   dispatch: AppDispatch,
-  user: { email: string; password: string }
+  user: { email: string; password: string },
+  navigate: NavigateFunction
 ) => {
+  console.log(API_URL);
+
   dispatch(loginStart());
   try {
-    const res = await axios.post('http://localhost:5000/api/v1/login', {
+    const res = await axios.post(`${API_URL}/login`, {
       email: user.email,
       password: user.password,
     });
     dispatch(loginSucess({ user: res.data.user, token: res.data.token }));
+    navigate('/products');
     return res;
   } catch (error) {
     dispatch(loginFailure());
@@ -32,7 +39,7 @@ export const signup = async (
 ) => {
   dispatch(loginStart());
   try {
-    const res = await axios.post('http://localhost:5000/api/v1/signup', {
+    const res = await axios.post(`${API_URL}/signup`, {
       username: user.username,
       email: user.email,
       password: user.password,
@@ -47,7 +54,7 @@ export const signup = async (
 export const getUserDetails = async (dispatch: AppDispatch) => {
   dispatch(loginStart());
   try {
-    const res = await axios.get('http://localhost:5000/api/v1/getSelf', {
+    const res = await axios.get(`${API_URL}/getSelf`, {
       withCredentials: true,
     });
     dispatch(getSelfHelper({ user: res.data.userDetails }));

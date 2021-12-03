@@ -11,14 +11,14 @@ import {
 } from '../slices/cartSlice';
 import { AppDispatch } from '../store';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const fetchCart = async (dispatch: AppDispatch) => {
   dispatch(loadingStart());
   try {
-    const res = await axios.get(
-      'http://localhost:5000/api/v1/getSelfCart',
-
-      { withCredentials: true }
-    );
+    const res = await axios.get(`${API_URL}/getSelfCart`, {
+      withCredentials: true,
+    });
     const cart = res.data.cart;
     const cartQuantity = cart.length;
     dispatch(updateQuantity({ quantity: cartQuantity }));
@@ -44,7 +44,7 @@ export const updateCart = async (
 ) => {
   dispatch(loadingStart());
   try {
-    await axios.put(`http://localhost:5000/api/v1/updateCart/${cartItemId}`, {
+    await axios.put(`${API_URL}/updateCart/${cartItemId}`, {
       product: productId,
       quantity: newQuantity,
       withCredentials: true,
@@ -61,12 +61,9 @@ export const deleteCartItem = async (
 ) => {
   dispatch(loadingStart());
   try {
-    await axios.delete(
-      `http://localhost:5000/api/v1/deleteCart/${cartItemId}`,
-      {
-        withCredentials: true,
-      }
-    );
+    await axios.delete(`${API_URL}/deleteCart/${cartItemId}`, {
+      withCredentials: true,
+    });
     dispatch(loadingsucess());
   } catch (error) {
     dispatch(loadingFailed());

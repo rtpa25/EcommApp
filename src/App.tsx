@@ -19,9 +19,10 @@ import UserProfile from './pages/UserProfile';
 const App = () => {
   const token = Cookies.get('token');
   const dispatch = useAppDispatch();
+  console.log(token);
 
   useEffect(() => {
-    const getCart = async () => {
+    const getStuff = async () => {
       try {
         await fetchCart(dispatch);
         await getUserDetails(dispatch);
@@ -30,7 +31,7 @@ const App = () => {
       }
     };
     if (token) {
-      getCart();
+      getStuff();
     }
   }, [dispatch, token]);
   return (
@@ -40,27 +41,14 @@ const App = () => {
           path='/'
           element={token ? <Navigate to='/products' /> : <Home />}
         />
-        <Route
-          path='/products/*'
-          element={token ? <ProductList /> : <Navigate to='/register' />}
-        />
-        <Route
-          path='/product/:productId'
-          element={token ? <Product /> : <Navigate to='/register' />}
-        />
-        <Route
-          path='/cart'
-          element={token ? <Cart /> : <Navigate to='/register' />}
-        />
+        <Route path='/products/*' element={<ProductList />} />
+        <Route path='/product/:productId' element={<Product />} />
+        <Route path='/cart' element={<Cart />} />
         <Route
           path='/sucess'
           element={token ? <Sucess /> : <Navigate to='/register' />}
         />
-        <Route
-          path='/userProfile'
-          element={token ? <UserProfile /> : <Navigate to='/register' />}
-        />
-        {/* can be accessed by non authenticated user */}
+        <Route path='/userProfile' element={<UserProfile />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/*' element={<Page404 />} />

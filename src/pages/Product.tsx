@@ -95,6 +95,8 @@ const Button = styled.button`
   }
 `;
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const Product = () => {
   const location = useLocation();
   const id = location.pathname.split('/')[2];
@@ -114,9 +116,9 @@ const Product = () => {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5000/api/v1/getSingleProduct/${id}`
-        );
+        const res = await axios.get(`${API_URL}/getSingleProduct/${id}`, {
+          withCredentials: true,
+        });
         setProduct(res.data.product);
       } catch (error) {
         console.log(error);
@@ -136,7 +138,7 @@ const Product = () => {
   const handleClick = async () => {
     try {
       await axios.request({
-        url: 'http://localhost:5000/api/v1/createCart',
+        url: `${API_URL}/createCart`,
         method: 'post',
         withCredentials: true,
         data: {
