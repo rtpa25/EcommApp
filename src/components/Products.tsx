@@ -42,8 +42,8 @@ const Products: React.FC<ProductsProps> = ({ category, filters, sort }) => {
       try {
         const res = await axios.get(
           category
-            ? `https://ronitp-1.herokuapp.com/api/v1/getAllProducts?category=${category}`
-            : `https://ronitp-1.herokuapp.com/api/v1/getAllProducts`,
+            ? `http://localhost:5000/api/v1/getAllProducts?category=${category}`
+            : `http://localhost:5000/api/v1/getAllProducts`,
           {
             withCredentials: true,
           }

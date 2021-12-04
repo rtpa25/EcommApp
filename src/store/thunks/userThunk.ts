@@ -17,8 +17,6 @@ export const login = async (
   user: { email: string; password: string },
   navigate: NavigateFunction
 ) => {
-  console.log(API_URL);
-
   dispatch(loginStart());
   try {
     const res = await axios.post(`${API_URL}/login`, {

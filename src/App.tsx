@@ -8,18 +8,17 @@ import ProductList from './pages/ProductList';
 import Register from './pages/Register';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Sucess from './pages/Sucess';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import { useEffect } from 'react';
-import { useAppDispatch } from './hooks';
+import { useAppDispatch, useAppSelector } from './hooks';
 import { fetchCart } from './store/thunks/cartThunks';
 import { getUserDetails } from './store/thunks/userThunk';
 import Page404 from './pages/404';
 import UserProfile from './pages/UserProfile';
 
 const App = () => {
-  const token = Cookies.get('token');
+  const token = useAppSelector((state) => state.user.token);
   const dispatch = useAppDispatch();
-  console.log(token);
 
   useEffect(() => {
     const getStuff = async () => {

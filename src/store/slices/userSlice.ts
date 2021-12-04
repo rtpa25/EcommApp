@@ -23,7 +23,7 @@ const initialState: UserState = {
   currentUser: undefined,
   isFetching: false,
   error: false,
-  token: undefined,
+  token: Cookies.get('token'),
 };
 
 const UserSlice = createSlice({
